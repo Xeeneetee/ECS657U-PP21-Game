@@ -8,6 +8,8 @@
 [Mm]emoryCaptures/
 ![Aa]ssets/**/*.meta
 
+!Packages/manifest.json
+
 [Aa]ssets/Plugins/Editor/JetBrains*
 
 .vs/
@@ -46,4 +48,3 @@ crashlytics-build.properties
 
 [Aa]ssets/[Ss]treamingAssets/aa.meta
 [Aa]ssets/[Ss]treamingAssets/aa/*
-EOF
