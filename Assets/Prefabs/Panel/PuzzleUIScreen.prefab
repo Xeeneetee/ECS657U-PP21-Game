@@ -52,11 +52,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82bdf931d059b4d4ebb89b9bd025246c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  puzzlePanel: {fileID: 0}
   leftPanel: {fileID: 7021000028552497052}
   rightPanel: {fileID: 4778487936159818059}
-  wireParent: {fileID: 4095418175819078359}
-  wireMaterial: {fileID: 2100000, guid: 70d3ca7f3b0bf4040943d35cc8808d36, type: 2}
-  lineWidth: 5
+  wiresParent: {fileID: 4095418175819078359}
+  wirePrefab: {fileID: 0}
 --- !u!1 &1311116113178265064
 GameObject:
   m_ObjectHideFlags: 0
