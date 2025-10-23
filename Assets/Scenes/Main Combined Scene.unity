@@ -682,6 +682,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91e61f7065773b444bcce0e69c0ad0ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timerText: {fileID: 654121430}
+  playerHealth: {fileID: 852721471}
 --- !u!114 &654121430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -779,11 +781,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 654121427}
   m_CullTransparentMesh: 1
---- !u!4 &692697738 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6558054991549363662, guid: 4433da9de4fa9344d9871b19df022be1, type: 3}
-  m_PrefabInstance: {fileID: 1362452888}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &698026622
 GameObject:
   m_ObjectHideFlags: 3
@@ -1101,6 +1098,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PuzzleB_UI
       objectReference: {fileID: 0}
+    - target: {fileID: 3519058227432609664, guid: 633254455c46db0438571f7c14230ea8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3896551898213187055, guid: 633254455c46db0438571f7c14230ea8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1294,6 +1295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbfb96e948f2f5c46adb8d53b1efe032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBarSlider: {fileID: 852721472}
 --- !u!114 &852721472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1758,6 +1760,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PuzzleA_UI
       objectReference: {fileID: 0}
+    - target: {fileID: 3760138212090775552, guid: 4433da9de4fa9344d9871b19df022be1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6317710904213779138, guid: 4433da9de4fa9344d9871b19df022be1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1938,6 +1944,7 @@ GameObject:
   - component: {fileID: 1527461471}
   - component: {fileID: 1527461470}
   - component: {fileID: 1527461469}
+  - component: {fileID: 1527461473}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2036,6 +2043,19 @@ Transform:
   - {fileID: 590831347}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1527461473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527461468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5876ecfcb8317484e8ff1b06133845d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealth: {fileID: 852721471}
 --- !u!1 &1667988455
 GameObject:
   m_ObjectHideFlags: 0
@@ -2903,6 +2923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7f028eb88aef74dbd6d9ef7604b709, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  puzzlePanel: {fileID: 0}
 --- !u!114 &2005797898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2915,11 +2936,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82bdf931d059b4d4ebb89b9bd025246c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  puzzlePanel: {fileID: 0}
   leftPanel: {fileID: 999941842}
   rightPanel: {fileID: 1275430223}
-  wireParent: {fileID: 692697738}
-  wireMaterial: {fileID: -3661639628750336703, guid: 7e0223e1d3e1733499accfa5ebffb67e, type: 3}
-  lineWidth: 5
+  wiresParent: {fileID: 0}
+  wirePrefab: {fileID: 0}
 --- !u!224 &2005797902 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2635965271137814150, guid: 4b11543ed6a64ff49aa093efe19fc252, type: 3}
