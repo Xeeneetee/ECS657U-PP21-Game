@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform orientation;
     public InputActionReference move;
     public Rigidbody rb;
+    private Animator animator;
 
     private Vector3 moveDirection;
 
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
