@@ -5,7 +5,7 @@ using System.Collections;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyBehaviour : MonoBehaviour
 {
-    private enum State {Idle, Wandering, Dwell, Chasing}
+    private enum State {Idle, Wandering, Dwell, Chasing, Hunting}
     private State state = State.Idle;
 
     private Vector3 spawnPoint;
@@ -24,7 +24,13 @@ public class EnemyBehaviour : MonoBehaviour
     private Vector3 lastKnownPlayerPosition;
     private float timeSinceLastSeen;
 
+    [SerializeField] private Animator animator;
+
     NavMeshAgent agent;
+
+    private int damageAmount = 25;
+    private float attackInterval = 1;
+    private float lastAttackTime = -Mathf.Infinity; // Enemy can attack immediately
 
     void Start()
     {
@@ -41,13 +47,15 @@ public class EnemyBehaviour : MonoBehaviour
             timeSinceLastSeen = 0f;
             state = State.Chasing;
         }
-        else if (state == State.Chasing)
+        else
         {
             timeSinceLastSeen += Time.deltaTime;
-            if (timeSinceLastSeen >= forgetTime)
-            {
-                state = State.Wandering;
-            }
+        }
+
+        if (animator != null)
+        {
+            bool running = (state == State.Wandering || state == State.Chasing);
+            animator.SetBool("isRunning", running);
         }
     }
 
@@ -62,12 +70,13 @@ public class EnemyBehaviour : MonoBehaviour
                     state = State.Wandering;
                     break;
                 case State.Wandering:
-                    Vector3? point = GetRandomNavmeshPoint(spawnPoint, wanderRadius, 5);
+                    Vector3? point = GetRandomNavmeshPoint(spawnPoint, wanderRadius, 20);
                     if (point.HasValue)
                     {
                         agent.SetDestination(point.Value);
                         float t = 0f;
-                        while (t < wanderInterval)
+                        // continue while under the wander interval AND the agent has not yet reached its destination
+                        while (t < wanderInterval && (agent.pathPending || agent.remainingDistance > agent.stoppingDistance))
                         {
                             if (agent.pathStatus == NavMeshPathStatus.PathInvalid)
                             {
@@ -106,24 +115,35 @@ public class EnemyBehaviour : MonoBehaviour
                     }
                     break;
                 case State.Chasing:
-                    // Can track player for 2 seconds after losing sight - simulates the enemy following the players direction of movement
+                    // Can track player for some time after losing sight - simulates the enemy following the players direction of movement
                     if (timeSinceLastSeen <= trackTime)
                     {
                         lastKnownPlayerPosition = player.position;
+                    }
+                    if (state == State.Chasing && timeSinceLastSeen > trackTime)
+                    {
+                        state = State.Hunting;
                     }
                     if (state == State.Chasing && timeSinceLastSeen >= forgetTime)
                     {
                         state = State.Wandering;
                     }
-                    while (Vector3.Distance(transform.position, lastKnownPlayerPosition) > 0.5f)
+                    while (Vector3.Distance(transform.position, lastKnownPlayerPosition) > 2f)
                     {
                         if (state != State.Chasing)
                         {
                             break;
                         }
-
+                        
                         agent.SetDestination(lastKnownPlayerPosition);
                         yield return null;
+                    }
+                    break;
+                case State.Hunting:
+                    Debug.Log("Hello");
+                    if (state == State.Hunting && timeSinceLastSeen >= forgetTime)
+                    {
+                        state = State.Wandering;
                     }
                     break;
             }
@@ -156,7 +176,6 @@ public class EnemyBehaviour : MonoBehaviour
         Vector3 playerCentre = player.position + Vector3.up * 1f;
 
         Vector3 directionToPlayer = playerCentre - enemyCentre;
-        
         float distance = directionToPlayer.magnitude;
 
         if (distance > sightDistance)
@@ -178,5 +197,40 @@ public class EnemyBehaviour : MonoBehaviour
         }
 
         return true;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        TryToAttack(collision.gameObject);
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        TryToAttack(collision.gameObject);
+    }
+
+    private void TryToAttack(GameObject other)
+    {
+        if (!other.CompareTag("Player"))
+        {
+            return;
+        }
+
+        Player player = other.GetComponent<Player>();
+        if (player == null || player.playerHealth == null)
+        {
+            return;
+        }
+
+        if (Time.time - lastAttackTime >= attackInterval)
+        {
+            player.playerHealth.TakeDamage(damageAmount);
+            lastAttackTime = Time.time;
+
+            if (animator != null)
+            {
+                animator.SetTrigger("Attack");
+            }
+        }
     }
 }

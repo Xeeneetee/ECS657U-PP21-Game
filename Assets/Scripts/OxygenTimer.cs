@@ -7,15 +7,10 @@ public class OxygenTimer : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timerText;
     [SerializeField] PlayerHealth playerHealth; 
-    private float timeLeft;
+    [SerializeField] private float timeLeft = 300;
     private int suffocationDamage = 1;
     private float timeBetweenDamage = 0.05f;
     private float lastTimeDamaged = -Mathf.Infinity;
-
-    void Start()
-    {
-        SetTimeLeft(10);
-    }
 
     private void SetTimeLeft(float timeInSeconds)
     {
