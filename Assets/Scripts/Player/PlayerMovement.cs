@@ -55,10 +55,6 @@ public class PlayerMovement : MonoBehaviour
         // For transitions
         bool isMoving = input.magnitude > 0.2f;
         animator.SetBool("IsMoving", isMoving);
-
-        Debug.Log($"Input magnitude: {input.magnitude}");
-        Debug.Log($"IsMoving: {isMoving}");
-        Debug.Log($"Forward: {localMove.z}, Strafe: {localMove.x}");
     }
     private void FixedUpdate()
     {
